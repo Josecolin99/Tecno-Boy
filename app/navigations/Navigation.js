@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements'
 import HomeStacks from './HomeStack'
 import ServicesStacks from './ServicesStack'
 import ComponentsStacks from './ComponentsStack'
-import SearchStacks from './SearchStack'
+import ContactStacks from './ContactStack'
 import AccountsStack from './AccountsStack'
 
 
@@ -18,8 +18,8 @@ export default function Navigation(){
             <Tab.Navigator
                 initialRouteName='home'
                 tabBarOptions={{
-                    inactiveTintColor: '#ff637d',
-                    activeTintColor: '#66d7d1'
+                    inactiveTintColor: '#b7657b',
+                    activeTintColor: '#78c4d4'
                 }}
                 screenOptions={({ route }) =>({
                     tabBarIcon:({ color }) => screenOptions(route, color)
@@ -41,9 +41,9 @@ export default function Navigation(){
                 options={{title:"Componentes"}}
                 />
                 <Tab.Screen 
-                name='search'
-                component={SearchStacks}
-                options={{title:"Busqueda"}}
+                name='contact'
+                component={ContactStacks}
+                options={{title:"Contacto"}}
                 />
                 <Tab.Screen 
                 name='account'
@@ -64,16 +64,16 @@ function screenOptions(route, color){
             iconName='compass-outline'
             break
         case 'services':
-            iconName='heart-outline'
+            iconName='face-agent'
             break
         case 'components':
-            iconName='star-outline'
+            iconName='desktop-classic'
             break
-        case 'search':
-            iconName='magnify'
+        case 'contact':
+            iconName='card-account-mail'
             break
         case 'account':
-            iconName='home-outline'
+            iconName='account-circle'
             break
     }
     return(
