@@ -18,8 +18,8 @@ export default function Navigation(){
             <Tab.Navigator
                 initialRouteName='home'
                 tabBarOptions={{
-                    inactiveTintColor: '#b7657b',
-                    activeTintColor: '#78c4d4'
+                    inactiveTintColor: '#b7657b', //rojo
+                    activeTintColor: '#78c4d4' //Azul
                 }}
                 screenOptions={({ route }) =>({
                     tabBarIcon:({ color }) => screenOptions(route, color)
