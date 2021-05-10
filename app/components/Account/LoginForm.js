@@ -8,12 +8,11 @@ import {useNavigation} from '@react-navigation/native'
 export default function RegisterForm(props){
     const {toastRef} = props
     const [showPassword, setShowPassword] = useState(false)
-    const [showRepeatPassword, setRepeatShowPassword] = useState(false)
     const [formData, setFormData] = useState(defaultFormatValues())
     const navigation = useNavigation()
 
     const onSumit = () =>{
-        if(formData.email.length===0 || formData.password.length===0 ||formData.repeatPassword.length===0){
+        if(formData.email.length===0 || formData.password.length===0){
             console.log('El email no es correcto')
             toastRef.current.show({
                 type: 'error',
@@ -33,23 +32,8 @@ export default function RegisterForm(props){
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
-                text1: 'Empty',
+                text1: 'Ya quieres Hackear esta cuenta',
                 text2: 'El email no es correcto',
-                visibilityTime: 3000,
-                autoHide: true,
-                topOffset: 30,
-                bottomOffset: 40,
-                onShow: () => {},
-                onHide: () => {},
-                onPress: () => {}
-              });
-        } else if (formData.password !== formData.repeatPassword){
-            console.log('Las contraseñas no coinciden')
-            toastRef.current.show({
-                type: 'error',
-                position: 'top',
-                text1: 'Empty',
-                text2: 'Las contraseñas no coinciden',
                 visibilityTime: 3000,
                 autoHide: true,
                 topOffset: 30,
@@ -63,8 +47,8 @@ export default function RegisterForm(props){
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
-                text1: 'Empty',
-                text2: 'El password debe tener mímo 6 caracteres',
+                text1: 'Ojo, muhcho cuidado',
+                text2: 'Recuerda que password debe tener mímo 6 caracteres',
                 visibilityTime: 3000,
                 autoHide: true,
                 topOffset: 30,
@@ -77,7 +61,7 @@ export default function RegisterForm(props){
             console.log('Todo OK')
             firebase
             .auth()
-            .createUserWithEmailAndPassword(formData.email, formData.password)
+            .signInWithEmailAndPassword(formData.email, formData.password)
             .then((response)=>{
                 console.log(response)
                 navigation.navigate('account')
@@ -88,7 +72,7 @@ export default function RegisterForm(props){
                     type: 'error',
                     position: 'top',
                     text1: 'Empty',
-                    text2: 'Correo ya en uso, utilice otro plis',
+                    text2: 'Correo o contraseña invalido',
                     visibilityTime: 3000,
                     autoHide: true,
                     topOffset: 30,
@@ -137,24 +121,8 @@ export default function RegisterForm(props){
                     />
                 }
             />
-            <Input
-                placeholder='Repetir Contraseña'
-                placeholderTextColor="#78c4d4"
-                containerStyle={styles.inputForm}
-                password={true}
-                secureTextEntry={!showRepeatPassword}
-                onChange={(e) => onChange(e, 'repeatPassword')}
-                rightIcon={
-                    <Icon
-                        type="material-community"
-                        name={showRepeatPassword ? "eye-off-outline" : "eye-outline"}
-                        iconStyle={styles.icon}
-                        onPress={() => setRepeatShowPassword(!showRepeatPassword)}
-                    />
-                }
-            />
             <Button
-                title='Únete'
+                title='Login'
                 containerStyle={styles.btnContainer}
                 buttonStyle={styles.btnRegister}
                 onPress={onSumit}
