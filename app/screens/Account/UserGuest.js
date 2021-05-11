@@ -13,7 +13,7 @@ export default function UserGuest(){
                 style={styles.strech}
                 source={require('../../../assets/img/a0ae191c143bc2ff84f8ffdf1ee7f947.gif')}
             />
-            <Text style={styles.title}> Ingresa a tu perfil </Text>
+            <Text style={styles.title}> Ingresa a tu perfil gest</Text>
             <Text style={styles.description}>
                 Obten lo ultimo en servicio y tecnologia en un mismo lugar
             </Text>

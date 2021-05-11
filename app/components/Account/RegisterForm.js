@@ -33,7 +33,7 @@ export default function RegisterForm(props){
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
-                text1: 'Empty',
+                text1: 'Error Email',
                 text2: 'El email no es correcto',
                 visibilityTime: 3000,
                 autoHide: true,
@@ -44,11 +44,11 @@ export default function RegisterForm(props){
                 onPress: () => {}
               });
         } else if (formData.password !== formData.repeatPassword){
-            console.log('Las contraseñas no coinciden')
+            console.log('El password debe tener mímo 6 caracteres')
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
-                text1: 'Empty',
+                text1: 'Error Coincidencia',
                 text2: 'Las contraseñas no coinciden',
                 visibilityTime: 3000,
                 autoHide: true,
@@ -59,11 +59,11 @@ export default function RegisterForm(props){
                 onPress: () => {}
               });
         } else if (formData.password.length < 6){
-            console.log('El password debe tener mímo 6 caracteres')
+            console.log('')
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
-                text1: 'Empty',
+                text1: 'Error Contraseña',
                 text2: 'El password debe tener mímo 6 caracteres',
                 visibilityTime: 3000,
                 autoHide: true,
@@ -87,7 +87,7 @@ export default function RegisterForm(props){
                 toastRef.current.show({
                     type: 'error',
                     position: 'top',
-                    text1: 'Empty',
+                    text1: 'Ya quieres hackear esta cuenta',
                     text2: 'Correo ya en uso, utilice otro plis',
                     visibilityTime: 3000,
                     autoHide: true,

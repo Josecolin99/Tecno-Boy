@@ -71,7 +71,7 @@ export default function RegisterForm(props){
                 toastRef.current.show({
                     type: 'error',
                     position: 'top',
-                    text1: 'Empty',
+                    text1: 'Error',
                     text2: 'Correo o contraseña invalido',
                     visibilityTime: 3000,
                     autoHide: true,
