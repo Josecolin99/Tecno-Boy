@@ -63,11 +63,11 @@ export default function RegisterForm(props){
             .auth()
             .signInWithEmailAndPassword(formData.email, formData.password)
             .then((response)=>{
-                console.log(response)
+                //console.log(response)
                 navigation.navigate('account')
             })
             .catch((err)=>{
-                console.log(err)
+                //console.log(err)
                 toastRef.current.show({
                     type: 'error',
                     position: 'top',
