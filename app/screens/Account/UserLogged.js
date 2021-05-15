@@ -23,10 +23,12 @@ export default function UserLogged(){
             </View>
             <View style={styles.viewcontainer}>
                 <Button
+                    title='Cerrar sesión' 
                     containerStyle={styles.btnContainer}
                     buttonStyle={styles.btnRegister}
-                    title='Cerrar sesión' onPress={()=>firebase.auth().signOut()}/>
+                    onPress={()=>firebase.auth().signOut()}/>
             </View>
+            <Toast ref={toastRef}/>
         </ScrollView>
     )
 }
@@ -43,6 +45,6 @@ const styles = StyleSheet.create({
     },
     viewcontainer:{
         alignItems: 'center',
-        marginBottom: 10
+        marginBottom: 20
     }
 })

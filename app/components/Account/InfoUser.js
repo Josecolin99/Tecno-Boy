@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React from 'react'
 import {StyleSheet, View, Text} from 'react-native'
 import {Avatar} from 'react-native-elements'
 import firebase from 'firebase'
