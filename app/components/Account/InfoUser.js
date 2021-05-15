@@ -1,9 +1,11 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import {StyleSheet, View, Text} from 'react-native'
 import {Avatar} from 'react-native-elements'
 import firebase from 'firebase'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker  from 'expo-image-picker'
+import AccountOption from './AccountOption'
+import Loading from '../../components/Loading'
 
 
 export default function InfoUser(props){
@@ -83,21 +85,26 @@ export default function InfoUser(props){
             console.log('Imagen Actualizada')
         })
     }
-
+ 
     return(
-        <View style={styles.viewUserInfo}>
-            <Avatar
-                title='ICR'
-                rounded
-                size='large'
-                onPress={changeAvatar}
-                containerStyle={styles.userAvatar}
-                source={
-                    photoURL ? { uri:photoURL } : require('../../../assets/img/avatar-default.jpg')
-                }
-            />
-            <View><Text style={styles.displayName}>{displayName ? displayName : 'Sin nombre definido'}</Text></View>
-            <View><Text>{email ? email : 'Sin email definido'}</Text></View>
+        <View>
+            <View style={styles.viewUserInfo}>
+                <Avatar
+                    title='ICR'
+                    rounded
+                    size='large'
+                    onPress={changeAvatar}
+                    containerStyle={styles.userAvatar}
+                    source={
+                        photoURL ? { uri:photoURL } : require('../../../assets/img/avatar-default.jpg')
+                    }
+                />
+                <View style={styles.viewInfo}>
+                    <Text style={styles.displayName}>{displayName ? displayName : 'Sin nombre definido'}</Text>
+                    <Text>{email ? email : 'Sin email definido'}</Text>
+                </View>
+            </View>
+            <AccountOption/>
         </View>
     )
 }
@@ -106,7 +113,7 @@ const styles = StyleSheet.create({
     viewUserInfo:{
         alignItems: 'center',
         justifyContent: 'center',
-        //flexDirection: 'row', aqui checa lo de la dirección
+        flexDirection: 'row', //aqui checa lo de la dirección
         paddingTop: 30,
         paddingBottom:30
     },
@@ -117,5 +124,9 @@ const styles = StyleSheet.create({
     displayName:{
         fontWeight: 'bold',
         paddingBottom:5
+    },
+    viewInfo:{
+        paddingTop: 20,
+        paddingLeft:15
     }
 })

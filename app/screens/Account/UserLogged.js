@@ -14,16 +14,18 @@ export default function UserLogged(){
             sethUserInfo(user)
         })()
     }, [])
+    
     return(
         <ScrollView>
             <View style={styles.viewcontainer}>
-                <Text>UserLogged</Text>
                 {userInfo && <InfoUser userInfo={userInfo} toastRef={toastRef}/>}
-                <Button title='Únete'
+                <Toast ref={toastRef}/>
+            </View>
+            <View style={styles.viewcontainer}>
+                <Button
                     containerStyle={styles.btnContainer}
                     buttonStyle={styles.btnRegister}
                     title='Cerrar sesión' onPress={()=>firebase.auth().signOut()}/>
-                <Toast ref={toastRef}/>
             </View>
         </ScrollView>
     )
@@ -32,6 +34,7 @@ export default function UserLogged(){
 const styles = StyleSheet.create({
     btnContainer:{
         marginTop: 20,
+        paddingTop:30,
         width: '95%'
         
     },
@@ -39,6 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#b7657b'
     },
     viewcontainer:{
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 10
     }
 })
