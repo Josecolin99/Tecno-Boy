@@ -14,7 +14,7 @@ export default function InfoUser(props){
     //console.log(photoURL)
     //console.log(displayName)
     //console.log(email)
-    const{userInfo:{uid, photoURL, displayName, email}, toastRef} = props
+    const{userInfo:{uid, photoURL, displayName, email},userInfo,setreLoadUserInfo, toastRef} = props
     
     const changeAvatar= async()=>{
         const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -46,17 +46,17 @@ export default function InfoUser(props){
                 uploadImage(result.uri).then(()=>{
                     console.log('Imagen en firebase')
                     updatePhotoUrl()
-                }).catch(()=>{
-                    toastRef.current.show({
-                        type: 'error',
-                        position: 'top',
-                        text1: 'Firebase Error',
-                        text2: 'Error al actualizar el avatar',
-                        visibilityTime: 3000
+                    }).catch(()=>{
+                        toastRef.current.show({
+                            type: 'error',
+                            position: 'top',
+                            text1: 'Firebase Error',
+                            text2: 'Error al actualizar el avatar',
+                            visibilityTime: 3000
+                        })
                     })
-                })
+                }
             }
-        }
     }
 
     const uploadImage = async (uri) => {
@@ -83,6 +83,7 @@ export default function InfoUser(props){
             }
             await firebase.auth().currentUser.updateProfile(update)
             console.log('Imagen Actualizada')
+            setreLoadUserInfo(true)
         })
     }
  
@@ -104,7 +105,10 @@ export default function InfoUser(props){
                     <Text>{email ? email : 'Sin email definido'}</Text>
                 </View>
             </View>
-            <AccountOption/>
+            <View>
+                <AccountOption userInfo={userInfo} toastRef={toastRef} setreLoadUserInfo={setreLoadUserInfo}/>
+            </View>
+            
         </View>
     )
 }

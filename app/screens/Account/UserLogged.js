@@ -7,18 +7,20 @@ import Toast from 'react-native-toast-message';
 
 export default function UserLogged(){
     const [userInfo, sethUserInfo] = useState(null)
+    const [reloadUserInfo, setreLoadUserInfo] = useState(false)
     const toastRef = useRef()
     useEffect( ()=>{
         (async()=>{
             const user = await firebase.auth().currentUser
             sethUserInfo(user)
         })()
-    }, [])
+        setreLoadUserInfo(false)
+    }, [reloadUserInfo])
     
     return(
         <ScrollView>
-            <View style={styles.viewcontainer}>
-                {userInfo && <InfoUser userInfo={userInfo} toastRef={toastRef}/>}
+            <View>
+                {userInfo && (<InfoUser userInfo={userInfo} toastRef={toastRef} setreLoadUserInfo={setreLoadUserInfo}/>)}
                 <Toast ref={toastRef}/>
             </View>
             <View style={styles.viewcontainer}>
