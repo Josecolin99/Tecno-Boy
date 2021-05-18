@@ -4,7 +4,7 @@ import { Input, Button, Icon } from 'react-native-elements'
 import firebase from 'firebase'
 import {validateEmail} from '../../utils/validateEmail'
 
-export default function ChangEmailForm(props){
+export default function ChangeEmailForm(props){
     const {email, setShowModal, toastRef, setreLoadUserInfo} = props
     const [newemail, setNewemail] = useState(null)
     const [password, setPassword] = useState(null)
