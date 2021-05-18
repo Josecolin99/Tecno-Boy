@@ -14,10 +14,9 @@ export default function ChangeDisplayNameForm(props){
         setError(null)
         if(!newDisplayName){
             setError('El nombre no puede ser vacio')
+            
         } else if(displayName === newDisplayName){
             setError('El nombre no puede ser igual')
-            console.log(displayName)
-            console.log(newDisplayName)
         } else{
             setIsLoading(true)
             const update ={
@@ -43,6 +42,7 @@ export default function ChangeDisplayNameForm(props){
         <View style={styles.view}>
             <Input
                 placeholder='Nombre y apellidos'
+                placeholderTextColor="#78c4d4"
                 containerStyle={styles.input}
                 rightIcon={{
                     type:'material-community',
@@ -54,7 +54,7 @@ export default function ChangeDisplayNameForm(props){
                 errorMessage={error}
             />
             <Button
-                title= 'Cambiar nombre'
+                title= 'Cambiar Nombre'
                 containerStyle={styles.btnContainer}
                 buttonStyle={styles.btn}
                 onPress={onSubmit}

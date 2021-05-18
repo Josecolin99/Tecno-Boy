@@ -5,31 +5,41 @@ import { Overlay } from 'react-native-elements/dist/overlay/Overlay'
 export default function Loading(props){
     const { isVisible, text} = props
     return(
-
-        <View style={[
-            {
-                flex: 1,
-                justifyContent: 'center'
-            },
-            ]}>
-            <View style={[
-                {
-                justifyContent: 'center',
-                alignSelf: 'center',
-                //backgroundColor: '·fff',
-                //borderWidth: 1,
-                //borderRadius: 10,
-                //width: 200,
-                //height: 150,
-                //borderColor: '#b7657b',
-                }
-            ]}>
-                <ActivityIndicator size='large' animating={true} color='#78c4d4'/>
-                <Text style={styles.text}>
-                    {text}
-                </Text>
-            </View>
+        <Overlay
+            isVisible={isVisible}
+            windowBackGroundColor='rgba(0,0,0,1)'
+            overlayBackGroundColor='transparent'
+            overlayStyle={styles.overlay}
+        >
+        <View>
+            {<ActivityIndicator size='large' color='#78c4d4'/>}
+            {text && <Text style={styles.text}>{text}</Text>}
         </View>
+        </Overlay>
+        //<View style={[
+        //    {
+        //        flex: 1,
+        //        justifyContent: 'center'
+        //    },
+        //    ]}>
+        //    <View style={[
+        //        {
+        //        justifyContent: 'center',
+        //        alignSelf: 'center',
+        //        //backgroundColor: '·fff',
+        //        //borderWidth: 1,
+        //        //borderRadius: 10,
+        //        //width: 200,
+        //        //height: 150,
+        //        //borderColor: '#b7657b',
+        //        }
+        //    ]}>
+        //        <ActivityIndicator size='large' animating={true} color='#78c4d4'/>
+        //        <Text style={styles.text}>
+        //            {text}
+        //        </Text>
+        //    </View>
+        //</View>
        
         //<Overlay 
         //    isVisible = {isVisible}           
@@ -49,11 +59,13 @@ export default function Loading(props){
 
 const styles = StyleSheet.create({
     overlay:{
+        height:'auto',
+        width:'90%',
         alignItems: 'center',
-        flex: 1,
+        //flex: 1,
         justifyContent: 'center',
-        height: 50,
-        width: 200,
+        //height: 10,
+        //width: 200,
         backgroundColor: '#ffffff',
         borderColor: '#b7657b',
         borderWidth: 2,

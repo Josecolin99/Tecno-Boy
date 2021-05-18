@@ -1,11 +1,11 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {StyleSheet, View, Text} from 'react-native'
 import {Avatar} from 'react-native-elements'
 import firebase from 'firebase'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker  from 'expo-image-picker'
 import AccountOption from './AccountOption'
-import Loading from '../../components/Loading'
+import Loading from '../../components/Loading.js'
 
 
 export default function InfoUser(props){
@@ -15,6 +15,7 @@ export default function InfoUser(props){
     //console.log(displayName)
     //console.log(email)
     const{userInfo:{uid, photoURL, displayName, email},userInfo,setreLoadUserInfo, toastRef} = props
+    const [isLoading, setLoading] = useState(false)  //heeeeey tas aca
     
     const changeAvatar= async()=>{
         const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -43,9 +44,12 @@ export default function InfoUser(props){
                     visibilityTime: 3000
                 })
             } else{
+                setLoading(true)
                 uploadImage(result.uri).then(()=>{
                     console.log('Imagen en firebase')
+                    setLoading(false)
                     updatePhotoUrl()
+                    
                     }).catch(()=>{
                         toastRef.current.show({
                             type: 'error',
@@ -86,7 +90,7 @@ export default function InfoUser(props){
             setreLoadUserInfo(true)
         })
     }
- 
+
     return(
         <View>
             <View style={styles.viewUserInfo}>
@@ -108,7 +112,10 @@ export default function InfoUser(props){
             <View>
                 <AccountOption userInfo={userInfo} toastRef={toastRef} setreLoadUserInfo={setreLoadUserInfo}/>
             </View>
-            
+            <Loading
+                isVisible={isLoading}
+                text={'Actualizando...'}
+            />
         </View>
     )
 }

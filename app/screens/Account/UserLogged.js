@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Image } from 'react-native'
 import firebase from 'firebase'
 import InfoUser from '../../components/Account/InfoUser'
 import Toast from 'react-native-toast-message';
+import Loading from '../../components/Loading'
 
 export default function UserLogged(){
     const [userInfo, sethUserInfo] = useState(null)
@@ -16,7 +17,7 @@ export default function UserLogged(){
         })()
         setreLoadUserInfo(false)
     }, [reloadUserInfo])
-    
+
     return(
         <ScrollView>
             <View>

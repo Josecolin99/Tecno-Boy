@@ -4,32 +4,47 @@ import {ListItem} from 'react-native-elements'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import Modal from '../Modal'
 import ChangeDisplayNameForm from './ChangeDisplayNameForm'
+import ChangeEmailForm from './ChangeEmailForm'
+import ChangePasswordForm from './ChangPasswordForm'
 
 export default function AccountOptions(props){
     const {userInfo, toastRef, setreLoadUserInfo} = props
     const [showModal, setShowModal] = useState(false)
     const [renderComponent, setRenderComponent] = useState(null)
-    console.log(userInfo)
+    //console.log(userInfo)
 
     const selectedComponent = (key) =>{
         switch(key){
             case 'displayName':
                 setRenderComponent(
                     <ChangeDisplayNameForm
-                    displayName={userInfo.displayName}
-                    setShowModal={setShowModal}
-                    toastRef={toastRef}
-                    setreLoadUserInfo={setreLoadUserInfo}
+                        displayName={userInfo.displayName}
+                        setShowModal={setShowModal}
+                        toastRef={toastRef}
+                        setreLoadUserInfo={setreLoadUserInfo}
                     />
                 )
                 setShowModal(true)
                 break
             case 'displayEmail':
-                setRenderComponent(<Text>Cambiando Email</Text>)
+                setRenderComponent(
+                    <ChangeEmailForm
+                        email={userInfo.email}
+                        setShowModal={setShowModal}
+                        toastRef={toastRef}
+                        setreLoadUserInfo={setreLoadUserInfo}
+                    />
+                )
                 setShowModal(true)
                 break
             case 'displayPassword':
-                setRenderComponent(<Text>Cambiando Password</Text>)
+                setRenderComponent(
+                <ChangePasswordForm
+                    email={userInfo.email}
+                    setShowModal={setShowModal}
+                    toastRef={toastRef}
+                    setreLoadUserInfo={setreLoadUserInfo}
+                />)
                 setShowModal(true)
                 break
             default:
