@@ -23,6 +23,8 @@ export default function ChangePasswordForm(props){
             setError('El pass no puede ser igual')
         }else if(newPass.length < 6){
             setError('Contraseña debe tener almenos 6 letras')
+        }else if(!password){
+            setErrorPass('Ingrese la contraseña')
         } else{
             setIsLoading(true)
             //const updateEmail(emau)         

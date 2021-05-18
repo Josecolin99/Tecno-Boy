@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Input, Button } from 'react-native-elements'
+import { Input, Button, Icon } from 'react-native-elements'
 import firebase from 'firebase'
 import {validateEmail} from '../../utils/validateEmail'
 
@@ -11,6 +11,7 @@ export default function ChangEmailForm(props){
     const [error, setError] = useState(null)
     const [errorPass, setErrorPass] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     
     
 
@@ -28,7 +29,7 @@ export default function ChangEmailForm(props){
         } else{
             setIsLoading(true)
             //const updateEmail(emau)         
-            console.log(newemail)
+            //console.log(newemail)
             
             var user = firebase.auth().currentUser;
             const credential = firebase.auth.EmailAuthProvider.credential(
@@ -81,11 +82,17 @@ export default function ChangEmailForm(props){
                 placeholder='Contraseña'
                 placeholderTextColor="#78c4d4"
                 containerStyle={styles.input}
-                rightIcon={{
-                    type:'material-community',
-                    name:'form-textbox-password',
-                    color:'#b7657b'
-                }}
+                password={true}
+                secureTextEntry={!showPassword}
+                rightIcon={
+                    <Icon
+                        type="material-community"
+                        name={showPassword ? "eye-off-outline" : "eye-outline"}
+                        iconStyle={styles.icon}
+                        onPress={() => setShowPassword(!showPassword)}
+                    />
+                    
+                }
                 //defaultValue={email || ''}
                 onChange={(e)=>setPassword(e.nativeEvent.text)}
                 errorMessage={errorPass}
@@ -117,5 +124,8 @@ const styles = StyleSheet.create({
     },
     btn:{
         backgroundColor: '#b7657b'
+    },
+    icon:{
+        color:'#b7657b'
     }
 })

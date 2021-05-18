@@ -47,8 +47,8 @@ export default function InfoUser(props){
                 setLoading(true)
                 uploadImage(result.uri).then(()=>{
                     console.log('Imagen en firebase')
-                    setLoading(false)
                     updatePhotoUrl()
+                    setLoading(false)
                     
                     }).catch(()=>{
                         toastRef.current.show({
