@@ -47,6 +47,13 @@ export default function ChangePasswordForm(props){
                     setIsLoading(false)
                     setreLoadUserInfo(true)
                     setShowModal(false)
+                    toastRef.current.show({
+                        type: 'success',
+                        position: 'top',
+                        text1: '¡Listo!',
+                        text2: 'Se cambio la contraseña',
+                        visibilityTime: 3000
+                    })
                 })   
                 .catch((error)=>{
                     console.log(error)

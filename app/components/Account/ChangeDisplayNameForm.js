@@ -30,6 +30,13 @@ export default function ChangDisplayNameForm(props){
                     setIsLoading(false)
                     setreLoadUserInfo(true)
                     setShowModal(false)
+                    toastRef.current.show({
+                        type: 'success',
+                        position: 'top',
+                        text1: '¡Listo!',
+                        text2: 'Se cambio el nombre',
+                        visibilityTime: 3000
+                    })
                 })   
                 .catch(()=>{
                     console.log('no tabien desde firebase')

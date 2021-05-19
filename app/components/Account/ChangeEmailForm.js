@@ -48,6 +48,13 @@ export default function ChangeEmailForm(props){
                     setIsLoading(false)
                     setreLoadUserInfo(true)
                     setShowModal(false)
+                    toastRef.current.show({
+                        type: 'success',
+                        position: 'top',
+                        text1: '¡Listo!',
+                        text2: 'Se cambio el email',
+                        visibilityTime: 3000
+                    })
                 })   
                 .catch((error)=>{
                     console.log(error)

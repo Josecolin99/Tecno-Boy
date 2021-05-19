@@ -36,6 +36,7 @@ export default function InfoUser(props){
             })
             console.log(result)
             if (result.cancelled){
+                setLoading(false)
                 toastRef.current.show({
                     type: 'info',
                     position: 'top',
@@ -49,8 +50,16 @@ export default function InfoUser(props){
                     console.log('Imagen en firebase')
                     updatePhotoUrl()
                     setLoading(false)
+                    toastRef.current.show({
+                        type: 'success',
+                        position: 'top',
+                        text1: '¡Listo!',
+                        text2: 'Se cambio la imagen',
+                        visibilityTime: 3000
+                    })
                     
                     }).catch(()=>{
+                        setLoading(false)
                         toastRef.current.show({
                             type: 'error',
                             position: 'top',
