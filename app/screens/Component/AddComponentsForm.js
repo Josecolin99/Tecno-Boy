@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import { Input, Button } from 'react-native-elements'
 
-export default function AddRestaurantForm(props){
-    const {toastRef, setIsLoading} = props
+export default function AddComponentsForm(props){
+    const {toastRef, setIsLoading, navigation} = props
     const [nameComponet, setNameComponet] = useState(null)// Nombre del componente
     const [marca, setMarca] = useState(null) // Nombre de la marca
     const [description, setDescription] = useState(null) // Descripcion del producto
