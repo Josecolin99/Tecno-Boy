@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Components from '../screens/Component/Components'
-import AddComponents from '../screens/Component/AddComponents'
+import AddComponents from '../components/Component/AddComponents'
 
 const Stack = createStackNavigator()
 

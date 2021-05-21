@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react'
 import {View, Text} from 'react-native'
-import Loading from '../../components/Loading'
+import Loading from '../Loading'
 import Toast from 'react-native-toast-message'
 import AddComponentsForm from './AddComponentsForm'
 import {useNavigation} from '@react-navigation/native'
