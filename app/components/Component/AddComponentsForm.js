@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native'
 import { Input, Button, Avatar, Icon} from 'react-native-elements'
 import Modal from '../../components/Modal'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import * as Location from 'expo-location'
-import { map, size } from 'lodash'
+import { map, size, filter} from 'lodash'
+import MapView from 'react-native-maps'
+import uuid from 'random-uuid-v4'
+import firebase from 'firebase'
 //import { round } from 'react-native-reanimated'
 
 
@@ -14,14 +17,18 @@ export default function AddComponentsForm(props){
     //Use States de los inputs y sus errores
     const [nameComponet, setNameComponet] = useState(null)// Nombre del componente
     const [marca, setMarca] = useState(null) // Nombre de la marca
-    const [locate, setLocate] = useState(null)
+    const [locateText, setLocateText] = useState(null)
     const [description, setDescription] = useState(null) // Descripcion del producto
     const [errorComponent, setErrorComponent] = useState(null) // Mensaje de error componente
     const [errorMarca, setErrorMarca] = useState(null) // Mensaje de error marca
     const [errorDescripcion, setErrorDescripcion] = useState(null) // Mensaje de error descripcion
     
-    const [isVisibleMap, setisVisibleMap] = useState(null)
+    const [isVisibleMap, setisVisibleMap] = useState(null) 
     const [imageSelected, setImageSelected] = useState([])
+
+    //use state del la ubicacion
+    const [locate, setLocate] = useState(null)
+    const [locationComponent, setLocationComponent] = useState(null)
 
     const onSubmit = ()=>{
         
@@ -59,12 +66,34 @@ export default function AddComponentsForm(props){
             setErrorDescripcion(null)
             console.log('Nombre del componente:', nameComponet)
             console.log('Nombre de la marca:', marca)
-            if(!locate){
+            if(!locateText){
                 console.log('Sin locacion')
             }else{
-                console.log('Locacion guardada')
+                console.log('Locacion: ', locationComponent)
             }
             console.log('Descripción del producto:', description)
+            
+            const imgurl = []
+            
+            map(imageSelected, async(uri) =>{
+                console.log('******URI********')
+                console.log(uri)
+                
+                uploadImage(uri)
+                
+            })
+            const tecno ={
+                name : nameComponet,
+                marca : marca,
+                locText : locateText,
+                descrip : description,
+                images : imageSelected,
+                rating : 0,
+                ratingTotal : 0,
+                quantity : 0,
+                
+                createBy : firebase.auth().currentUser.uid
+            }
             toastRef.current.show({
                 type: 'success',
                 position: 'top',
@@ -74,6 +103,21 @@ export default function AddComponentsForm(props){
             })
         }
     }
+
+    const uploadImage = async (uri) => {
+        console.log('**URI**')
+        console.log(uri)
+        const response = await fetch(uri)
+        console.log(JSON.stringify(response))
+        const blob = await response.blob()
+        console.log('**Blob**')
+        console.log(JSON.stringify(blob))
+        const ref = firebase.storage().ref().child(`tecno/${uuid()}`)
+        return ref.put(blob)
+    }
+    
+
+
     return(
         <ScrollView >
             <View style={styles.view}>
@@ -111,7 +155,7 @@ export default function AddComponentsForm(props){
                         color:'#b7657b',
                         onPress:()=> setisVisibleMap(true)
                     }}
-                    onChange={(e)=>setLocate(e.nativeEvent.text)}
+                    onChange={(e)=>setLocateText(e.nativeEvent.text)}
 
                 />
                 <Input
@@ -143,7 +187,7 @@ export default function AddComponentsForm(props){
                         //loading={isLoading}
                     />
                 </View>
-                <Maps isVisibleMap={isVisibleMap} setisVisibleMap={setisVisibleMap}>
+                <Maps isVisibleMap={isVisibleMap} setisVisibleMap={setisVisibleMap} setLocationComponent={setLocationComponent} >
                     <Text>Cha</Text>
                 </Maps>
             
@@ -152,7 +196,7 @@ export default function AddComponentsForm(props){
 }
 
 function Maps(props){
-    const {isVisibleMap, setisVisibleMap} = props
+    const {isVisibleMap, setisVisibleMap, setLocationComponent} = props
     const [location, setLocation] = useState(null)
 
     useEffect(() => {
@@ -170,18 +214,62 @@ function Maps(props){
                 })
             }else{
                 const locate = await Location.getCurrentPositionAsync({})
+                console.log('*****************')
                 console.log(locate)
                 setLocation({
                     latitude: locate.coords.latitude,
-                    longitude: locate.coords.longitude
+                    longitude: locate.coords.longitude,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001
                 })
+                setLocationComponent(locate)
+                
             }
         })()
     }, [])
 
+        const confirmLocation=()=>{
+            setLocation(location)
+            setisVisibleMap(false)
+            console.log('---------------')
+            console.log(location)
+            setLocationComponent(location)
+
+        }
+
     return(
         <Modal isVisible={isVisibleMap} setIsVisible={setisVisibleMap}>
-            <Text>cha</Text>
+            <View>
+                {location&&
+                    <MapView
+                    style={styles.mapStyle}
+                    initialRegion={location}
+                    showsUserLocation={true}
+                    onRegionChange={(region)=>setLocation(region)}
+                    >
+                    <MapView.Marker
+                        coordinate={{
+                            latitude:location.latitude,
+                            longitude:location.longitude
+                        }}
+                        draggable
+                    />
+                    </MapView>}
+                    <View style={styles.viewBtn}>
+                        <Button
+                            title='Guardar Ubicación'
+                            containerStyle={styles.viewMapBtnContainerSave}
+                            buttonStyle={styles.viewMapBtnSave}
+                            onPress={confirmLocation}
+                        />
+                        <Button
+                            title='Cancelar Ubicación'
+                            containerStyle={styles.viewMapBtnContainerCancel}
+                            buttonStyle={styles.viewMapBtnCancel}
+                            onPress={()=>setisVisibleMap(false)}
+                        />
+                    </View>
+            </View>
         </Modal>
     )
 }
@@ -236,6 +324,32 @@ function UploadImage({toastRef, imageSelected, setImageSelected}){
     }
 }
 
+    const removeImage = (image) =>{
+        Alert.alert(
+            "Eliminar Imagen",
+            "¿Estas seguro que quieres eliminar esta imagen?",
+            [
+                {
+                    text: "No",
+                    style: "cancel"
+
+                },
+                {
+                    text: "Si",
+                    onPress: ()=>{
+                        setImageSelected(
+                            filter(imageSelected, (imageUrl) => imageUrl !== image)
+                        )
+                    }
+                }
+            ],
+            {
+                cancelable : true
+            }
+        )
+    }
+
+
     return(
         <ScrollView
             horizontal
@@ -261,6 +375,7 @@ function UploadImage({toastRef, imageSelected, setImageSelected}){
                             key={index}
                             style={styles.miniatureStyle}
                             source={{uri:imageComponent}}
+                            onPress={()=>removeImage(imageComponent)}
                             />
                     ))
                }
@@ -303,6 +418,27 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         marginRight: 20
+    },
+    mapStyle:{
+        width: '100%',
+        height: 550
+    },
+    viewBtn:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 10
+    },
+    viewMapBtnContainerSave:{
+        paddingRight: 5
+    },
+    viewMapBtnSave:{
+        backgroundColor:'#78c4d4'
+    },
+    viewMapBtnContainerCancel:{
+        paddingRight: 5
+    },
+    viewMapBtnCancel:{
+        backgroundColor:'#a60d06'
     }
 
 })
